@@ -48,7 +48,7 @@ _ACTIVE_SCHEDULER_OWNER: Optional[str] = None
     "xx",
     "订阅橘鸦AI日报并进行AI总结",
     "1.01",
-    "https://github.com/xxofficial/astrbot_plugin_daily_ai_news",
+    "https://github.com/RhoninSeiei/astrbot_plugin_daily_ai_news",
 )
 class DailyAINewsPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig):
