@@ -40,5 +40,17 @@
 		"description": "订阅推送的私聊列表（每行一个）",
 		"hint": "支持跨平台格式 {机器人名称}:{私聊账号ID}。如果不加前缀仅填纯数字，默认为私聊 QQ 号。也可通过私聊发送 /ainews_sub 指令订阅。",
 		"default": ""
+	},
+	"command_subscribed_groups": {
+		"type": "text",
+		"description": "指令订阅的群聊列表（自动同步）",
+		"hint": "通过 /ainews_sub 在群聊中订阅后，会自动同步到此处用于展示。",
+		"default": ""
+	},
+	"command_subscribed_users": {
+		"type": "text",
+		"description": "指令订阅的私聊列表（自动同步）",
+		"hint": "通过 /ainews_sub 在私聊中订阅后，会自动同步到此处用于展示。",
+		"default": ""
 	}
 }
