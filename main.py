@@ -608,8 +608,14 @@ class DailyAINewsPlugin(Star):
             return None
 
     def _parse_article_date(self, article: Dict) -> str:
-        """从文章中解析日期，优先使用 pubDate，回退从标题提取，最后使用当天日期。"""
-        # 优先：解析 pubDate（RFC 2822 格式）
+        """从文章中解析日报日期，优先使用标题或链接中的 YYYY-MM-DD。"""
+        for field in ("title", "link"):
+            value = article.get(field, "")
+            match = re.search(r"(\d{4}-\d{2}-\d{2})", value)
+            if match:
+                return match.group(1)
+
+        # pubDate 是 RSS 发布时间，可能早于日报标题日期，仅作为回退。
         pub_date = article.get("pub_date", "")
         if pub_date:
             try:
@@ -617,12 +623,6 @@ class DailyAINewsPlugin(Star):
                 return dt.strftime("%Y-%m-%d")
             except Exception:
                 pass
-
-        # 回退：从标题提取 YYYY-MM-DD
-        title = article.get("title", "")
-        match = re.search(r"(\d{4}-\d{2}-\d{2})", title)
-        if match:
-            return match.group(1)
 
         # 最后回退：当天日期
         return datetime.now().strftime("%Y-%m-%d")

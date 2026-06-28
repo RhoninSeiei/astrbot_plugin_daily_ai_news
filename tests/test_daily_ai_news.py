@@ -257,6 +257,22 @@ class DailyAINewsPluginTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(article["pub_date"], "Sat, 13 Jun 2026 00:45:53 +0000")
             self.assertIn("Claude Code", article["content"])
 
+    def test_parse_article_date_prefers_title_when_rss_pubdate_is_previous_day(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            temp_root = Path(tmp_dir)
+            plugin, _, _, _ = self.create_plugin(temp_root)
+
+            article_date = plugin._parse_article_date(
+                {
+                    "title": "2026-06-28",
+                    "link": "https://daily.juya.uk/issues/2026-06-28/",
+                    "content": "x" * 200,
+                    "pub_date": "Sat, 27 Jun 2026 03:27:36 GMT",
+                }
+            )
+
+            self.assertEqual(article_date, "2026-06-28")
+
     async def test_fetch_latest_article_falls_back_to_homepage_when_rss_is_unavailable(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             temp_root = Path(tmp_dir)
